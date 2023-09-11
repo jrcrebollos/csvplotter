@@ -14,11 +14,12 @@ import getpass
 
 def plot(
         df              =   None,
-        plot_type       =   "line",
+        csvfile         =   '',
+        plot_type       =   'line',
         x               =   None,  
         y               =   None,  
         reference       =   None,
-        color_group     =   None,
+        color_group     =   '',
         input_vars      =   None,
         file_name       =   None, 
         xscale          =   'linear',
@@ -33,9 +34,15 @@ def plot(
         fullscreen      =   False,
         notation        =   "engineering",
         save            =   False,
+        format          =   'svg',
+        filter          =   ''
         
         ):    
-        
+
+    
+
+
+
     current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # ANSI escape code for red text
     red_text = "\033[91m"
@@ -47,13 +54,31 @@ def plot(
     # Print Messages
     print(green_text+"Plotting.........."+reset_color)
 
+    if len(csvfile) == 0 and df.empty == True:
+        print(red_text + "Error: No csvfile or data." + reset_color)
+        return 
+    if len(csvfile) > 0 and df.empty == False:
+        print(red_text + "Error: Both csvfile and df input variables are entered. Please choose only one." + reset_color)
+        return 
+    if len(csvfile) == 0 and df.empty == False:
+        pass
+    if len(csvfile) > 0 and df.empty == True:
+        df = pd.read_csv(csvfile)
+
+    #Applying filtering
+    if len(filter)>0:
+        df = df.query(filter)   
+        
+    #List of colors for plotting    
     color_list = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w', 'orange', 'purple', 'brown', 'pink', 'lime', 
                 'indigo', 'gray', 'olive', 'teal','b', 'g', 'r', 'c', 'm', 'y', 'k', 'w', 'orange', 
                 'purple', 'brown', 'pink', 'lime', 'indigo', 'gray', 'olive', 'teal','b', 'g', 'r', 
                 'c', 'm', 'y', 'k', 'w', 'orange', 'purple', 'brown', 'pink', 'lime', 'indigo', 'gray', 
                 'olive', 'teal','b', 'g', 'r', 'c', 'm', 'y', 'k', 'w', 'orange', 'purple', 'brown', 'pink',
-                'lime', 'indigo', 'gray', 'olive', 'teal','b', 'g', 'r', 'c', 'm', 'y', 'k', 'w', 'orange', 'purple', 'brown', 'pink', 'lime', 'indigo', 'gray', 'olive', 'teal']
+                'lime', 'indigo', 'gray', 'olive', 'teal','b', 'g', 'r', 'c', 'm', 'y', 'k', 'w', 'orange', 'purple', 
+                'brown', 'pink', 'lime', 'indigo', 'gray', 'olive', 'teal']
 
+    #Changing input variables to list type.
     if not isinstance(x, list):
         x_list = [x]
     else:
@@ -378,7 +403,8 @@ def plot(
                     axs[iter].set_xscale(xscale)   
     my_input_vars_str = []
     get_input_var = input_vars[:]
-    #get_input_var.insert(0, x)
+    
+
     for index_num in range(len(get_input_var)):  
         #print("None")
         my_input_vars_str.append(get_input_var[index_num] + "=" + str(df[get_input_var[index_num]].unique())) 
@@ -386,13 +412,8 @@ def plot(
     
     
     username = os.getenv('USERNAME') or getpass.getuser()
-    # Use EngFormatter to display y-axis labels in engineering notation
-    #if plot_type == "line_drift_percent" or plot_type == "line_drift":
 
     plt.tight_layout(rect=[0, 0.05, 1, 0.96])
-    #plt.suptitle(my_input_vars_str, wrap=True , fontsize=10, fontweight='bold', x=0.5, y=0.96 , ha='right')
-    
-    # Define ANSI escape codes for text formatting
 
     title_str = []
     if show_date == True:
@@ -417,7 +438,7 @@ def plot(
 
 
     if save == True:
-        plt.savefig(file_name, format='svg')
+        plt.savefig(file_name, format= format)
         print('Vector file created: ' + file_name)
         plt.close()
     if show_plot == True:
