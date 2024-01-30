@@ -40,7 +40,8 @@ def plot(
         legend_fontsize =   8,
         yscale2         =   "linear",
         xscale2         =   "linear",
-        
+        watermark       =   False,
+        markersize      =   10,
         ):    
 
     
@@ -103,7 +104,7 @@ def plot(
         print("Applying filter...")
         df = df.query(filter)   
     print("Done loading csv file..")   
-
+    #df = df.sort_values(by=list(df.columns), ascending=False)
     color_list = [
     '#1f77b4',  # Blue
     '#2ca02c',  # Green
@@ -377,6 +378,9 @@ def plot(
     '#17becf',   # Teal
     ]
 
+    color_list   = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd','#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf','#1a55FF', '#FF661A', '#0DFF42', '#FF0D42', '#00B4FF','#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd','#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf','#1a55FF', '#FF661A', '#0DFF42', '#FF0D42', '#00B4FF','#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd','#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf','#1a55FF', '#FF661A', '#0DFF42', '#FF0D42', '#00B4FF','#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd','#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf','#1a55FF', '#FF661A', '#0DFF42', '#FF0D42', '#00B4FF','#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd','#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf','#1a55FF', '#FF661A', '#0DFF42', '#FF0D42', '#00B4FF',
+                    '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd','#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf','#1a55FF', '#FF661A', '#0DFF42', '#FF0D42', '#00B4FF','#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd','#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf','#1a55FF', '#FF661A', '#0DFF42', '#FF0D42', '#00B4FF','#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd','#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf','#1a55FF', '#FF661A', '#0DFF42', '#FF0D42', '#00B4FF']
+ 
     markers_list = ['o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd','o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd','o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd',
                     'o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd','o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd','o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd',
                     'o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd','o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd','o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', '*', 'h', 'H', '+', 'x', 'D', 'd',
@@ -392,7 +396,7 @@ def plot(
     if plot_type in ["line_drift_percent", "line_drift"]:
         for iter_x in range(len(x_list)):
             if reference[iter_x] not in  df[x_list[iter_x]].unique():
-                print(red_text + "The reference value is not within the range of x values." +reset_color)
+                print(red_text + "The reference value is not within the range of x values." + reset_color)
                 return
         col_line_plot = len(x_list)
         row_line_plot = 2  
@@ -404,8 +408,7 @@ def plot(
         else:
             row_line_plot =  1
             col_line_plot =  len(x_list)
-            #if len(x_list) == 1:
-                #axs = [axs]
+
         # Create a list to store all combinations of rows and columns
         subplot_combinations = []
         # Generate all combinations of rows and columns
@@ -413,20 +416,19 @@ def plot(
             for col in range(col_line_plot):
                 subplot_combinations.append([row, col])
 
+    #Creating a figure and how many rows and columns for the window
     fig, axs = plt.subplots(row_line_plot, col_line_plot, figsize=figsize)  # 2 rows, 1 column   
-    #if len(x_list) == 1:
-     #    axs = [axs]
+
     if plot_type == "line"  or plot_type == "scatter" or plot_type == "scatter_colorbar":
         if not len(x_list)%2 == 0:
             if len(x_list) == 1:
                 axs = [axs]
+
     #Main Loop
     for iter_x in range(len(x_list)):         
-        #color_group_list.clear()
-        #grouped_by_list.clear()
-        color_group_list    = []
-        grouped_by_list     = input_vars[:]
-        color_g_val         =[]
+        color_group_list = []
+        grouped_by_list = input_vars[:]
+        color_g_val =   []
         color_g_val.clear()
         #Getting the elements in color_group list
         if color_group:
@@ -446,18 +448,14 @@ def plot(
             color_g_val = ['None']
         
         grouped_by_list.pop(grouped_by_list.index(x_list[iter_x]))
-        #print(grouped_by_list)
+   
         # Group the DataFrame by color_group to create separate data series for each elements value
         grouped = df.groupby(grouped_by_list)  
-        #print(grouped['Transmission_Line'])
-        
-        #if plot_type == "line_drift_percent" or plot_type == "line_drift":
-            
+
         for (sub_group), group in grouped:
-            #print(group[y])
-            #print(group)
+            
             combined_string =  ', '.join(str(item) for item in sub_group[0:len(color_g_val)])  
-            #print(combined_string)
+            
             if plot_type == "line_drift_percent" or plot_type == "line_drift":
                 
                 #Getting the reference values
@@ -490,19 +488,19 @@ def plot(
                         
 
                     if col_line_plot>1:
-                        axs[0,iter_x].plot(group[x_list[iter_x]], group[y],    label=label,  color= color, marker= marker , linewidth=linewidth)
+                        axs[0,iter_x].plot(group[x_list[iter_x]], group[y],    label=label,  color= color, marker= marker ,markersize = markersize,linewidth=linewidth)
                         axs[1,iter_x].plot(group[x_list[iter_x]], delta_y,     label=label1,  color= color, marker= marker, linewidth=linewidth)
                     else:
-                        axs[iter_x].plot(group[x_list[iter_x]], group[y],      label=label,  color= color, marker= marker, linewidth=linewidth)
-                        axs[iter_x+1].plot(group[x_list[iter_x]], delta_y,     label=label1,  color= color, marker= marker, linewidth=linewidth)
+                        axs[iter_x].plot(group[x_list[iter_x]], group[y],      label=label,  color= color, marker= marker,markersize = markersize, linewidth=linewidth)
+                        axs[iter_x+1].plot(group[x_list[iter_x]], delta_y,     label=label1,  color= color, marker= marker, markersize = markersize,linewidth=linewidth)
                     
                 else:
                     if col_line_plot>1:
-                        axs[0,iter_x].plot(group[x_list[iter_x]],   group[y], color= color, marker= marker, linewidth=linewidth)
-                        axs[1,iter_x].plot(group[x_list[iter_x]],   delta_y,  color= color, marker= marker, linewidth=linewidth)
+                        axs[0,iter_x].plot(group[x_list[iter_x]],   group[y], color= color, marker= marker,markersize = markersize, linewidth=linewidth)
+                        axs[1,iter_x].plot(group[x_list[iter_x]],   delta_y,  color= color, marker= marker, markersize = markersize,linewidth=linewidth)
                     else:
-                        axs[iter_x].plot(group[x_list[iter_x]],     group[y], color= color, marker= marker, linewidth=linewidth)
-                        axs[iter_x+1].plot(group[x_list[iter_x]],   delta_y,  color= color, marker= marker, linewidth=linewidth)
+                        axs[iter_x].plot(group[x_list[iter_x]],     group[y], color= color, marker= marker,markersize = markersize, linewidth=linewidth)
+                        axs[iter_x+1].plot(group[x_list[iter_x]],   delta_y,  color= color, marker= marker,markersize = markersize, linewidth=linewidth)
 
                 # Add labels and title for the first subplot
                 if col_line_plot>1:
@@ -562,9 +560,6 @@ def plot(
                             ax.xaxis.set_major_formatter(EngFormatter(useMathText=True))
                             #ax.text(0.95, 0.01, f"Date: {current_date}", transform=ax.transAxes, fontsize=10, ha="right")
             if plot_type == "line":          
-                #for (sub_group), group in grouped:
-                #    combined_string =  ', '.join(str(item) for item in sub_group[0:len(color_g_val)])  
-            
                 if combined_string not in color_group_list:
                     if color_group:
                         if color_group[iter_x]:
@@ -584,15 +579,15 @@ def plot(
                             label1 = y + "_Drift" 
 
                     if row_line_plot>1:
-                        axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].plot(group[x_list[iter_x]], group[y],    label=label,  color=color, linewidth=linewidth, marker= marker )
+                        axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].plot(group[x_list[iter_x]], group[y],    label=label,  color=color, linewidth=linewidth, marker= marker, markersize = markersize )
                     else:
-                        axs[iter_x].plot(group[x_list[iter_x]], group[y],    label=f"{color_g_val}={combined_string}",  color= color, linewidth=linewidth, marker= marker )
+                        axs[iter_x].plot(group[x_list[iter_x]], group[y],    label=f"{color_g_val}={combined_string}",  color= color, linewidth=linewidth, marker= marker, markersize = markersize )
                     
                 else:
                     if row_line_plot>1:
-                        axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].plot(group[x_list[iter_x]], group[y], color=color, linewidth=linewidth, marker= marker )
+                        axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].plot(group[x_list[iter_x]], group[y], color=color, linewidth=linewidth, marker= marker, markersize = markersize )
                     else:
-                        axs[iter_x].plot(group[x_list[iter_x]], group[y], color=color, linewidth=linewidth, marker= marker )
+                        axs[iter_x].plot(group[x_list[iter_x]], group[y], color=color, linewidth=linewidth, marker= marker, markersize = markersize )
 
             # Add labels and title for the first subplot
                 if row_line_plot>1:
@@ -600,7 +595,7 @@ def plot(
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_ylabel(y)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_xscale(xscale)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_yscale(yscale)
-                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].legend(loc='best')
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].legend(loc='best', fontsize=legend_fontsize,framealpha=0.4)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(True)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].minorticks_on()
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
@@ -610,7 +605,7 @@ def plot(
                     axs[iter_x].set_ylabel(y)
                     axs[iter_x].set_xscale(xscale)
                     axs[iter_x].set_yscale(yscale)
-                    axs[iter_x].legend(loc='best', fontsize=legend_fontsize)
+                    axs[iter_x].legend(loc='best', fontsize=legend_fontsize,framealpha=0.4)
                     axs[iter_x].grid(True)
                     axs[iter_x].minorticks_on()
                     axs[iter_x].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
@@ -627,6 +622,7 @@ def plot(
                             ax.yaxis.set_major_formatter(EngFormatter(useMathText=True))
                             ax.xaxis.set_major_formatter(EngFormatter(useMathText=True))
                             #ax.text(0.95, 0.01, f"Date: {current_date}", transform=ax.transAxes, fontsize=10, ha="right")
+                #print(df)
             if plot_type == "scatter":
 
                 if combined_string not in color_group_list:
@@ -634,16 +630,17 @@ def plot(
                     color_group_list.append(combined_string)
                     label = f"{color_g_val}={combined_string}"
                     color = color_list[color_group_list.index(combined_string)]
+                    marker= markers_list[color_group_list.index(combined_string)]
 
                     if row_line_plot>1:
-                        axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].scatter(group[x_list[iter_x]], group[y],    label=label,  color= color)
+                        axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].scatter(group[x_list[iter_x]], group[y],    label=label,  color= color, marker = marker, s = markersize)
                     else:
-                        axs[iter_x].scatter(group[x_list[iter_x]], group[y],    label=f"{color_g_val}={combined_string}",  color= color)
+                        axs[iter_x].scatter(group[x_list[iter_x]], group[y],    label=f"{color_g_val}={combined_string}",  color= color , marker = marker, s = markersize)
                 else:
                     if row_line_plot>1:
-                        axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].scatter(group[x_list[iter_x]], group[y], color= color)
+                        axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].scatter(group[x_list[iter_x]], group[y], color= color, marker = marker, s = markersize)
                     else:
-                        axs[iter_x].scatter(group[x_list[iter_x]], group[y], color= color)
+                        axs[iter_x].scatter(group[x_list[iter_x]], group[y], color= color, marker = marker, s = markersize)
 
                 # Add labels and title for the first subplot¨
             
@@ -654,9 +651,11 @@ def plot(
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_ylabel(y)
                     
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_yscale(yscale)
-                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].legend(loc='best', fontsize=legend_fontsize)
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].legend(loc='best', fontsize=legend_fontsize,framealpha=0.4)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(True)
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].minorticks_on()
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].yaxis.set_major_formatter(EngFormatter(useMathText=True))
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                     if group[x_list[iter_x]].dtype == object:
                         pass
                     else:
@@ -668,9 +667,11 @@ def plot(
                     axs[iter_x].set_xlabel(x_list[iter_x])
                     axs[iter_x].set_ylabel(y)
                     axs[iter_x].set_yscale(yscale)
-                    axs[iter_x].legend(loc='best', fontsize=legend_fontsize)
+                    axs[iter_x].legend(loc='best', fontsize=legend_fontsize ,framealpha=0.4)
                     axs[iter_x].grid(True)
+                    axs[iter_x].minorticks_on()
                     axs[iter_x].yaxis.set_major_formatter(EngFormatter(useMathText=True))
+                    axs[iter_x].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                     if group[x_list[iter_x]].dtype == object:
                         pass
                     else:
@@ -738,8 +739,8 @@ def plot(
         title_str.append(f"Date created: {current_date}\n")
     if show_user == True:
         title_str.append(f"Created by: {username}\n")
-
-    plt.suptitle(f"{''.join(title_str)}", wrap=True, fontsize=10, fontweight='normal', x=0.0, y=0.97, ha='left', va='center')
+    
+    plt.suptitle(f"{''.join(title_str)}", wrap=True, fontsize=10, fontweight='normal', x=0.0, y=0.96, ha='left', va='center')
                     #bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2')) 
     if show_input_var == True:
         plt.annotate(f"Input variables: {my_input_vars_str}",xy=(0.5,0.03),fontweight='normal',xycoords='figure fraction',  # Use figure-relative coordinates
@@ -747,18 +748,19 @@ def plot(
         ha='center',  # Horizontal alignment ('center' for center alignment)
         wrap=True
         )
-
-    #ax.text(0.95, 0.01, f"Date: {current_date}", transform=ax.transAxes, fontsize=10, ha="right")
-    #plt.tight_layout()
+    if watermark == True:
+        #plt.text(0.8, 1, 'Nordicsemiconductor', transform=ax.transAxes,fontsize=40, color='gray', alpha=0.2,ha='center', va='center', rotation=30)
+        #plt.text(0.5, 0.5, 'Nordicsemiconductor', transform=ax.transAxes,fontsize=40, color='gray', alpha=0.2,ha='center', va='center', rotation=30)
+        #plt.text(0.2, 0, 'Nordicsemiconductor', transform=ax.transAxes,fontsize=40, color='gray', alpha=0.2, ha='center', va='center', rotation=30)    
+        plt.figtext(0.8, 0.6, 'Nordicsemiconductor', fontsize=40, color='gray', alpha=0.2, ha='center', va='center', rotation=30)
+        plt.figtext(0.5, 0.5, 'Nordicsemiconductor', fontsize=40, color='gray', alpha=0.2, ha='center', va='center', rotation=30)
+        plt.figtext(0.2, 0.4, 'Nordicsemiconductor', fontsize=40, color='gray', alpha=0.2, ha='center', va='center', rotation=30)
     if fullscreen == True:
         manager = plt.get_current_fig_manager()
         manager.window.showMaximized()
-
-
     if save == True:
         plt.savefig(file_name, format= format)
         print('Vector file created: ' + file_name)
-       
     if show_plot == True:
         plt.show()
     else:
