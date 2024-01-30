@@ -10,8 +10,8 @@ setup(
     url="https://github.com/jrcrebollos/csvplotter",
     packages=find_packages(),
     install_requires=[
-        "dependency1",
-        "dependency2",
+        "",
+       
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
