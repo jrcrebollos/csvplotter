@@ -596,7 +596,7 @@ def plot(
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_xscale(xscale)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_yscale(yscale)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].legend(loc='best', fontsize=legend_fontsize,framealpha=0.4)
-                    #axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(True)
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(False)
                     #axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].minorticks_on()
                     #axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                     
@@ -606,7 +606,7 @@ def plot(
                     axs[iter_x].set_xscale(xscale)
                     axs[iter_x].set_yscale(yscale)
                     axs[iter_x].legend(loc='best', fontsize=legend_fontsize,framealpha=0.4)
-                    #axs[iter_x].grid(True)
+                    axs[iter_x].grid(False)
                     #axs[iter_x].minorticks_on()
                     #axs[iter_x].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
 
