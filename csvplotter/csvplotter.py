@@ -509,8 +509,8 @@ def plot(
                     axs[0,iter_x].set_xscale(xscale)
                     axs[0,iter_x].set_yscale(yscale)
                     axs[0,iter_x].legend(loc='best', fontsize=legend_fontsize)
-                    #axs[0,iter_x].grid(True)
-                    #axs[0,iter_x].minorticks_on()
+                    axs[0,iter_x].grid(True)
+                    axs[0,iter_x].minorticks_on()
                     #axs[0,iter_x].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                     # Add labels and title for the second subplot
                     axs[1,iter_x].set_xlabel(x_list[iter_x])
@@ -522,8 +522,8 @@ def plot(
                     axs[1,iter_x].set_xscale(xscale2)
                     axs[1,iter_x].set_yscale(yscale2)
                     axs[1,iter_x].legend(loc='best', fontsize=legend_fontsize)
-                    #axs[1,iter_x].grid(True)
-                    #axs[1,iter_x].minorticks_on()
+                    axs[1,iter_x].grid(True)
+                    axs[1,iter_x].minorticks_on()
                     #axs[1,iter_x].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                     
                 else:
@@ -532,8 +532,8 @@ def plot(
                     axs[iter_x].set_xscale(xscale)
                     axs[iter_x].set_yscale(yscale)
                     axs[iter_x].legend(loc='best', fontsize=legend_fontsize)
-                    #axs[iter_x].grid(True)
-                    #axs[iter_x].minorticks_on()
+                    axs[iter_x].grid(True)
+                    axs[iter_x].minorticks_on()
                     #axs[iter_x].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
 
                     # Add labels and title for the second subplot
@@ -545,8 +545,8 @@ def plot(
                     axs[iter_x+1].set_xscale(xscale2)
                     axs[iter_x+1].set_yscale(yscale2)
                     axs[iter_x+1].legend(loc='best', fontsize=legend_fontsize)
-                    #axs[iter_x+1].grid(True)
-                    #axs[iter_x+1].minorticks_on()
+                    axs[iter_x+1].grid(True)
+                    axs[iter_x+1].minorticks_on()
                     #axs[iter_x+1].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                 if notation == "engineering":
                     if col_line_plot > 1:
@@ -596,8 +596,8 @@ def plot(
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_xscale(xscale)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_yscale(yscale)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].legend(loc='best', fontsize=legend_fontsize,framealpha=0.4)
-                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(False)
-                    #axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].minorticks_on()
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(True)
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].minorticks_on()
                     #axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                     
                 else:
@@ -606,8 +606,8 @@ def plot(
                     axs[iter_x].set_xscale(xscale)
                     axs[iter_x].set_yscale(yscale)
                     axs[iter_x].legend(loc='best', fontsize=legend_fontsize,framealpha=0.4)
-                    axs[iter_x].grid(False)
-                    #axs[iter_x].minorticks_on()
+                    axs[iter_x].grid(True)
+                    axs[iter_x].minorticks_on()
                     #axs[iter_x].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
 
 
@@ -652,8 +652,8 @@ def plot(
                     
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_yscale(yscale)
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].legend(loc='best', fontsize=legend_fontsize,framealpha=0.7)
-                    #axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(True)
-                   # axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].minorticks_on()
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(True)
+                    axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].minorticks_on()
                     axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].yaxis.set_major_formatter(EngFormatter(useMathText=True))
                     #axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                     if group[x_list[iter_x]].dtype == object:
@@ -668,8 +668,8 @@ def plot(
                     axs[iter_x].set_ylabel(y)
                     axs[iter_x].set_yscale(yscale)
                     axs[iter_x].legend(loc='best', fontsize=legend_fontsize ,framealpha=0.7)
-                    #axs[iter_x].grid(True)
-                    #axs[iter_x].minorticks_on()
+                    axs[iter_x].grid(True)
+                    axs[iter_x].minorticks_on()
                     axs[iter_x].yaxis.set_major_formatter(EngFormatter(useMathText=True))
                     #axs[iter_x].grid(which='minor', linestyle='--', linewidth=0.5, color='gray')
                     if group[x_list[iter_x]].dtype == object:
@@ -704,7 +704,7 @@ def plot(
                 
                 axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].set_yscale(yscale)
                 
-                #axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(True)
+                axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].grid(True)
                 axs[subplot_combinations[iter_x][0],subplot_combinations[iter_x][1]].yaxis.set_major_formatter(EngFormatter(useMathText=True))
                 if group[x_list[iter_x]].dtype == object:
                     pass
@@ -716,7 +716,7 @@ def plot(
                 axs[iter_x].set_xlabel(x_list[iter_x])
                 axs[iter_x].set_ylabel(y)
                 
-                #axs[iter_x].grid(True)
+                axs[iter_x].grid(True)
                 axs[iter_x].yaxis.set_major_formatter(EngFormatter(useMathText=True))
                 if df[x_list[iter_x]].dtype == object:
                     pass
